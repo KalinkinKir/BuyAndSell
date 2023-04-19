@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.test.buyandsell.Repositories.UserRepository;
 
-//показывает спринг секьюрити, как подгружать юзеров по юзернеймам
+//показывает spring security, как подгружать юзеров по юзернеймам
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {

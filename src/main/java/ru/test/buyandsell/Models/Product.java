@@ -30,7 +30,7 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
     mappedBy = "product")
     private List<Image> images = new ArrayList<>();
-    private Long previewImageId;                                            //чтобы изначально знать какая фото превьюшная
+    private Long previewImageId;                                            //чтобы изначально знать какое фото превьюшная
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
     private User user;

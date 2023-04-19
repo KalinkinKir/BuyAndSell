@@ -60,7 +60,7 @@ public class ProductService {
         return userRepository.findByEmail(principal.getName());
     }
 
-    //Присваивает изображению данные файла
+    //присваивает изображению данные файла
     private Image toImageEntity(MultipartFile file) throws IOException {
         Image image = new Image();
         image.setName(file.getName());
