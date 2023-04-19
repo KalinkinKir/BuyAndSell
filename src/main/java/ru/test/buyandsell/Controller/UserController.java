@@ -14,16 +14,19 @@ import ru.test.buyandsell.Services.UserService;
 public class UserController {
     private final UserService userService;
 
+    //страница авторизации
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    //страница регистрации
     @GetMapping("/registration")
     public String registration(){
         return "registration";
     }
 
+    //регистрация нового юзера
     @PostMapping("/registration")
     public String createUser(User user, Model model){
         if(!userService.createUser(user)){
@@ -33,6 +36,7 @@ public class UserController {
         return "redirect:/login";
     }
 
+    //страница с подробной информацией о конкретном юзере
     @GetMapping("/user/{user}")
     public String userInfo(@PathVariable("user") User user, Model model){
         model.addAttribute("user", user);

@@ -27,6 +27,8 @@ public class ProductService {
         }
         return productRepository.findAll();
     }
+
+    //метод сохранения нового товара
     public void saveProduct(Principal principal, Product product, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
         product.setUser(getUserByPrincipal(principal));
         Image image1;
@@ -52,11 +54,13 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    //метод, который находит юзера по email
     public User getUserByPrincipal(Principal principal) {
         if (principal == null) return new User();
         return userRepository.findByEmail(principal.getName());
     }
 
+    //Присваивает изображению данные файла
     private Image toImageEntity(MultipartFile file) throws IOException {
         Image image = new Image();
         image.setName(file.getName());
@@ -67,10 +71,12 @@ public class ProductService {
         return image;
     }
 
+    //удаление товара по id
     public void deleteProduct(long id){
         productRepository.deleteById(id);
     }
 
+    //находит товар по id
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }

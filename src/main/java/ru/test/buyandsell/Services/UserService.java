@@ -21,11 +21,13 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    //создание нового юзера
     public boolean createUser(User user){
         String email = user.getEmail();
         if(userRepository.findByEmail(email) != null) return false;
         user.setActive(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));           //таким образом шифруем пароль
+        user.setPassword(passwordEncoder.encode(user.getPassword()));                                   //таким образом шифруем пароль
         user.getRoles().add(Role.ROLE_USER);
         log.info("saving new User with e-mail: {}", email);
         userRepository.save(user);
@@ -33,10 +35,13 @@ public class UserService {
 
     }
 
+    //находит всех юзеров
     public List<User> list(){
         return userRepository.findAll();
     }
-    public void userBan(Long id){                                                                       //находим юзера по id, проверяем активность и баним/дебаним
+
+    //находим юзера по id, проверяем активность и баним/дебаним
+    public void userBan(Long id){
         User user = userRepository.findById(id).orElse(null);
         if (user != null){
             if (user.isActive()){
@@ -52,6 +57,7 @@ public class UserService {
         }
     }
 
+    //меняет роль юзера
     public void changeUserRole(User user, Map<String, String> form) {
         Set<String> roles = Arrays.stream(Role.values())                    //преобразуем роли в строковый вид и в сет
                 .map(Role::name)

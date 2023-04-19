@@ -19,22 +19,30 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class AdminController {
     private final UserService userService;
+
+    //переход на страницу с панелью админа
     @GetMapping("/admin")
     public String admin(Model model){
         model.addAttribute("users", userService.list());
         return "admin";
     }
+
+    //бан юзера
     @PostMapping("/admin/user/ban/{id}")
     public String userBan(@PathVariable ("id") Long id){
         userService.userBan(id);
         return "redirect:/admin";
     }
+
+    //переход на страницу, где можно поменять роль юзера
     @GetMapping("/admin/user/edit/{user}")
     public String userEdit(@PathVariable("user") User user, Model model){
         model.addAttribute("users", user);
         model.addAttribute("roles", Role.values());
         return "user-edit";
     }
+
+    //смена ролей
     @PostMapping("/admin/user/edit")
     public String userEdit(@RequestParam("userId") User user, @RequestParam Map<String,String> form){
         userService.changeUserRole(user, form);

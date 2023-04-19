@@ -19,6 +19,7 @@ import java.security.Principal;
 public class ProductController {
     private final ProductService productService;
 
+    //главная страница
     @GetMapping("/")
     public String products(@RequestParam(name = "title", required = false) String title, Principal principal, Model model){
         model.addAttribute("products", productService.listProducts(title));
@@ -26,6 +27,7 @@ public class ProductController {
         return "products";
     }
 
+    //страница с конкретным товаром
     @GetMapping("/product/{id}")
     public String productInfo(@PathVariable Long id, Model model){
         Product product = productService.getProductById(id);
@@ -33,6 +35,8 @@ public class ProductController {
         model.addAttribute("images", product.getImages());
         return "product-info";
     }
+
+    //создание нового товара
     @PostMapping("/product/create")
     public String createProduct(@RequestParam("file1") MultipartFile file1,
                                 @RequestParam("file2") MultipartFile file2,
@@ -40,6 +44,7 @@ public class ProductController {
         productService.saveProduct(principal, product, file1, file2, file3);
         return "redirect:/";
     }
+    //удаление существующего товара
     @PostMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
