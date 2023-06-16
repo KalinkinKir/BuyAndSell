@@ -1,13 +1,12 @@
 package ru.test.buyandsell.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.test.buyandsell.Models.Enums.Role;
 import ru.test.buyandsell.Models.User;
 import ru.test.buyandsell.Services.UserService;
@@ -17,35 +16,37 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@RequestMapping("/admins")
+@Tag(name = "Контроллер админов", description = "Отвечает за панель администратора, блокировку и смену ролей пользователей")
 public class AdminController {
     private final UserService userService;
 
-    //переход на страницу с панелью админа
-    @GetMapping("/admin")
+    @Operation(summary = "Страница с панелью админа")
+    @GetMapping("/adminPanel")
     public String admin(Model model){
         model.addAttribute("users", userService.list());
         return "admin";
     }
 
-    //бан юзера
-    @PostMapping("/admin/user/ban/{id}")
-    public String userBan(@PathVariable ("id") Long id){
+    @Operation(summary = "Бан юзера")
+    @PostMapping("/userBan/{id}")
+    public String userBan(@PathVariable("id") Long id){
         userService.userBan(id);
-        return "redirect:/admin";
+        return "redirect:/admins/adminPanel";
     }
 
-    //переход на страницу, где можно поменять роль юзера
-    @GetMapping("/admin/user/edit/{user}")
+    @Operation(summary = "Страница, где можно поменять роль юзера")
+    @GetMapping("/userEdit/{user}")
     public String userEdit(@PathVariable("user") User user, Model model){
         model.addAttribute("users", user);
         model.addAttribute("roles", Role.values());
         return "user-edit";
     }
 
-    //смена ролей
-    @PostMapping("/admin/user/edit")
+    @Operation(summary = "Изменение роли юзера")
+    @PostMapping("/userEdit")
     public String userEdit(@RequestParam("userId") User user, @RequestParam Map<String,String> form){
         userService.changeUserRole(user, form);
-        return "redirect:/admin";
+        return "redirect:/admins/adminPanel";
     }
 }

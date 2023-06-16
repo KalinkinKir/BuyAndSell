@@ -5,7 +5,7 @@
 <body>
 <h1>BuyAndSell</h1><hr>
 <h3>Редактирование пользователя ${user.name}</h3>
-<form action="/admin/user/edit" method="post">
+<form action="/admins/userEdit" method="post">
     <#list roles as role>
     <div>
         <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>

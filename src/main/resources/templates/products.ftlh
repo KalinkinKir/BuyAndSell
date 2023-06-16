@@ -12,7 +12,7 @@
         <input type="submit" value="Выйти">
     </form>
     <#if user.isAdmin()>
-        <a href="/admin">Панель администраттора</a>
+        <a href="/admins/adminPanel">Панель администратора</a>
     </#if>
 <#else>
     <a href="/login">Войти</a>
@@ -25,7 +25,7 @@
 </form>
 <#list products as product>
     <div>
-        <p><b>${product.title}</b> ${product.price} руб. | <a href="/product/${product.id}"> Подробнее... </a></p>
+        <p><b>${product.title}</b> ${product.price} руб. | <a href="/products/${product.id}"> Подробнее... </a></p>
     </div>
     <#else>
     <h3>Товаров нет</h3>
